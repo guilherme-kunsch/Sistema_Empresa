@@ -148,7 +148,7 @@ class GerenciarEmpresa
           do
           {
             limpaConsoleExibeLogo();
-            System.Console.WriteLine("[1] - Relatório de filias/funcionários"); //podiamos usar a filial como herança
+            System.Console.WriteLine("[1] - Relatório de funcionários");
             System.Console.WriteLine("[2] - Relatório de pagamentos");
             System.Console.WriteLine("[3] - Voltar ao menu principal");
             System.Console.Write("Digite sua opção: ");

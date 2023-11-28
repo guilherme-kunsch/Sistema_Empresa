@@ -35,8 +35,6 @@ public class PlanoCarreira : Funcionario
       Console.WriteLine("\n[✓]  Avaliação do Gerente\n[✓]  Tempo de empresa maior que 8 meses");
       Console.WriteLine("\n>> APROVADO, apto a subir de cargo.\n");
       Console.WriteLine("==================================================");
-      Console.Write("Digite qualquer tecla para voltar ao menu principal!");
-      Console.ReadKey();
 
     }
 
@@ -46,8 +44,6 @@ public class PlanoCarreira : Funcionario
       Console.WriteLine("\n[✓]  Avaliação do Gerente\n[x]  Tempo de empresa maior que 8 meses");
       Console.WriteLine("\n>> REPROVADO, aprovado pela vistoria do gerente, porém sem tempo suficiente de empresa.\n");
       Console.WriteLine("==================================================");
-      Console.Write("Digite qualquer tecla para voltar ao menu principal!");
-      Console.ReadKey();
 
     }
     else if (tempo_de_empresa > 8 && avaliacao_gerente == false)
@@ -56,8 +52,6 @@ public class PlanoCarreira : Funcionario
       Console.WriteLine("\n[x]  Avaliação do Gerente\n[✓]  Tempo de empresa maior que 8 meses");
       Console.WriteLine("\n>> REPROVADO, possui tempo de empresa porém não passou pela vistoria do gerente.\n");
       Console.WriteLine("==================================================");
-      Console.Write("Digite qualquer tecla para voltar ao menu principal!");
-      Console.ReadKey();
     }
     else
     {
@@ -65,8 +59,6 @@ public class PlanoCarreira : Funcionario
       Console.WriteLine("\n[x]  Avaliação do Gerente\n[x]  Tempo de empresa maior que 8 meses");
       Console.WriteLine("\n>> REPROVADO, não está apto a subir de cargo.\n");
       Console.WriteLine("=====================================================");
-      Console.Write("Digite qualquer tecla para voltar ao menu principal!");
-      Console.ReadKey();
     }
   }
 
