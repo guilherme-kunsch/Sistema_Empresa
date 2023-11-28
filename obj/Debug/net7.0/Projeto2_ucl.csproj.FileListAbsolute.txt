@@ -1,0 +1,14 @@
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\obj\Debug\net7.0\Projeto2_ucl.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\obj\Debug\net7.0\Projeto2_ucl.AssemblyInfoInputs.cache
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\obj\Debug\net7.0\Projeto2_ucl.AssemblyInfo.cs
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\obj\Debug\net7.0\Projeto2_ucl.csproj.CoreCompileInputs.cache
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\bin\Debug\net7.0\Projeto2_ucl.exe
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\bin\Debug\net7.0\Projeto2_ucl.deps.json
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\bin\Debug\net7.0\Projeto2_ucl.runtimeconfig.json
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\bin\Debug\net7.0\Projeto2_ucl.dll
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\bin\Debug\net7.0\Projeto2_ucl.pdb
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\obj\Debug\net7.0\Projeto2_ucl.dll
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\obj\Debug\net7.0\refint\Projeto2_ucl.dll
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\obj\Debug\net7.0\Projeto2_ucl.pdb
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\obj\Debug\net7.0\Projeto2_ucl.genruntimeconfig.cache
+C:\Users\guilh\OneDrive\Documentos\Projeto2_ucl\obj\Debug\net7.0\ref\Projeto2_ucl.dll
