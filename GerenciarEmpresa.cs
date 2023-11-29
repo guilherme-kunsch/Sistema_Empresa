@@ -100,6 +100,8 @@ class GerenciarEmpresa
 
         case "2":
           limpaConsoleExibeLogo();
+          System.Console.Write("Filial: ")
+          string filial = Console.ReadLine();
           System.Console.Write("Nome: ");
           string nome_funcionario = Console.ReadLine();
           System.Console.Write("Cargo: ");
@@ -116,7 +118,7 @@ class GerenciarEmpresa
           int ano = int.Parse(Console.ReadLine());
 
 
-          nova_empresa.CadastrarFuncionario(new Funcionario(nome_funcionario, cargo, salario, new DateTime(ano, mes, dia)));
+          nova_empresa.CadastrarFuncionario(new Funcionario(filial, nome_funcionario, cargo, salario, new DateTime(ano, mes, dia)));
 
 
           Console.WriteLine("\nFuncionário cadastrado com sucesso!\n\n");

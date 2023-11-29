@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Funcionario
 {
 
+  public string filial { get; protected set; }
   public string nome { get; protected set; }
   public string cargo { get; protected set; }
   public float salario { get; protected set; }
@@ -15,6 +16,7 @@ public class Funcionario
   ///Construtor sem parametro
   public Funcionario()
   {
+    filial = 0;
     nome = "vazio";
     cargo = "vazio";
     salario = 0f;
@@ -22,8 +24,9 @@ public class Funcionario
   }
 
   ///Construtor com parametro
-  public Funcionario(string nome, string cargo, float salario, DateTime data_entrada)
+  public Funcionario(string filial, string nome, string cargo, float salario, DateTime data_entrada)
   {
+    this.filial = filial;
     this.nome = nome.ToUpper();
     this.cargo = cargo.ToUpper();
     this.salario = salario;
