@@ -2,25 +2,19 @@ using System;
 using System.Collections.Generic;
 
 
-public class PlanoCarreira : Funcionario
+public class PlanoCarreira
 {
   public float tempo_de_empresa { get; protected set; }
   private bool avaliacao_gerente = true;
   private Funcionario funcionario;
 
 
-  public PlanoCarreira(Funcionario funcionario) : base(funcionario.nome, funcionario.cargo, funcionario.salario, funcionario.data_entrada)
+
+  public PlanoCarreira(Funcionario funcionario)
   {
     this.tempo_de_empresa = funcionario.CalcularDiasNaEmpresa() / 30;
     this.funcionario = funcionario;
   }
-
-  public override string ToString()
-  {
-    return base.ToString() + $"\nTempo de empresa em MESES: {tempo_de_empresa}";
-  }
-
-
 
 
   // Método pra verificar se está apto a subir de cargo:
@@ -61,9 +55,25 @@ public class PlanoCarreira : Funcionario
       Console.WriteLine("=====================================================");
     }
   }
+  public void ExibirFuncionarios(List<Funcionario> lista)
+  {
+    Console.WriteLine("==================================================");
+    Console.WriteLine("-------------FUNCIONÁRIOS CADASTRADOS-------------");
+    Console.WriteLine("==================================================\n\n");
+
+    for (int i = 0; i < lista.Count; i++)
+    {
+      Funcionario f = lista[i];
+      Console.WriteLine($"Funcionário {i + 1}: {f.nome}");
+    }
+
+  }
 
 
-
+  public void InfoDoFuncionario(Funcionario f, PlanoCarreira p)
+  {
+    Console.WriteLine($"\nNome: {f.nome}\nCargo: {f.cargo}\nSalario: {f.salario}\nTempo de empresa em DIAS: {f.CalcularDiasNaEmpresa()}\nTempo de empresa em MESES: {p.tempo_de_empresa}\n");
+  }
 
 
 }

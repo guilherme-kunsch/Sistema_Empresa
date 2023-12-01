@@ -5,7 +5,7 @@ using System.Text;
 
 class GerenciarEmpresa
 {
-  Empresa nova_empresa;
+  Empresa empresa_matriz;
 
   private bool continueRunning = true;
 
@@ -19,25 +19,65 @@ class GerenciarEmpresa
       string nome = dados[0];
       string cargo = dados[1];
       int salario = int.Parse(dados[2]);
-
       DateTime data_de_entrada = DateTime.Parse(dados[3]);
+      int codigo_filial = int.Parse(dados[4]);
 
-      Funcionario novo_funcionario = new(nome, cargo, salario, data_de_entrada);
-      nova_empresa.CadastrarFuncionario(novo_funcionario);
+      Funcionario novo_funcionario = new(nome, cargo, salario, data_de_entrada, codigo_filial);
+
+      empresa_matriz.CadastrarFuncionario(novo_funcionario);
+      empresa_matriz.CodigoFilial(codigo_filial, novo_funcionario);
+
 
     }
-
     return true;
 
   }
+
+  public bool CarregarDadosFiliais(string filiais_dados)
+  {
+    string[] linhas = File.ReadAllLines(filiais_dados);
+
+    foreach (string linha in linhas)
+    {
+      string[] dados = linha.Split(";");
+
+      string nome = dados[0];
+      DateTime data_criacao = DateTime.Parse(dados[1]);
+      int identificacao = int.Parse(dados[2]);
+      string cnpj = dados[3];
+      int quantidade_funcionarios = int.Parse(dados[4]);
+      string filial_estado = dados[5];
+
+      Filial nova_filial = new(nome, data_criacao, identificacao, cnpj, quantidade_funcionarios, filial_estado);
+
+      empresa_matriz.CadastrarFilial(nova_filial);
+    }
+    return true;
+  }
+
 
   public bool GravarDadosFuncionarios(string funcionarios_dados)
   {
     using (StreamWriter writer = new StreamWriter(funcionarios_dados))
     {
-      foreach (Funcionario f in nova_empresa.getListaFuncionarios())
+      foreach (Funcionario f in empresa_matriz.getListaFuncionarios())
       {
         string linha = string.Format("{0};{1};{2};{3}", f.nome, f.cargo, f.salario, f.data_entrada);
+        writer.WriteLine(linha);
+      }
+
+    }
+
+    return true;
+  }
+
+  public bool GravarDadosFiliais(string filiais_dados)
+  {
+    using (StreamWriter writer = new StreamWriter(filiais_dados))
+    {
+      foreach (Filial f in empresa_matriz.getListaFiliais())
+      {
+        string linha = string.Format("{0};{1};{2};{3}", f.nome, f.data_criacao, f.identificacao, f.cnpj, f.quantidade_funcionarios, f.filial_estado);
         writer.WriteLine(linha);
       }
 
@@ -49,8 +89,7 @@ class GerenciarEmpresa
 
   public GerenciarEmpresa()
   {
-    nova_empresa = new Empresa("ENTERPRISE OTAKU", new DateTime(2000, 01, 01)
-, 0);
+    empresa_matriz = new Empresa("ENTERPRISE OTAKU", new DateTime(2000, 01, 01), 0, "65.777753/0001-47");
   }
 
   public void Menu()
@@ -66,7 +105,7 @@ class GerenciarEmpresa
       System.Console.WriteLine("[2] - Cadastrar colaborador");
       System.Console.WriteLine("[3] - Plano de carreira");
       System.Console.WriteLine("[4] - Relatórios");
-      System.Console.WriteLine("[5] - Gravar Funcionarios Cadastrados Até o Momento");
+      System.Console.WriteLine("[5] - Gravar Funcionarios/Filiais Cadastradas Até o Momento");
       System.Console.Write("Digite sua opção: ");
       option = Console.ReadLine();
 
@@ -79,29 +118,30 @@ class GerenciarEmpresa
 
         case "1":
           limpaConsoleExibeLogo();
+          Console.Write("Digite o nome da filial: ");
+          string nome = Console.ReadLine();
+          Console.Write("Digite a data de criação da filial: ");
+          DateTime data_criacao = DateTime.Parse(Console.ReadLine());
           Console.WriteLine("Digite o código da filial: ");
-          int codigo_filial = Convert.ToInt32(Console.ReadLine());
+          int identificacao = int.Parse(Console.ReadLine());
           Console.Write("Digite o CNPJ: ");
           string cnpj = Console.ReadLine();
-          Console.Write("Digite o nome da filial: ");
-          string nome_filial = Console.ReadLine();
-          Console.Write("Digite o endereço da filial: ");
-          string estado = Console.ReadLine();
           Console.Write("Digite a quantidade de funcionários: ");
-          int qtd_funcionario = Convert.ToInt32(Console.ReadLine());
+          int quantidade_funcionarios = Convert.ToInt32(Console.ReadLine());
+          Console.Write("Digite o estado da filial [XY]: ");
+          string filial_estado = Console.ReadLine();
 
-          Filiais nova_filial = new(codigo_filial, cnpj, nome_filial, estado, qtd_funcionario);
+          // Criar uma instancia de Filial e adicionar a lista de filiais dentro da empresa
+          Filial nova_filial = new(nome, data_criacao, identificacao, cnpj, quantidade_funcionarios, filial_estado);
+          empresa_matriz.CadastrarFilial(nova_filial);
 
-          nova_filial.CadastrarFilial(nova_filial);
-
-          Console.Write("Filial cadastrada com sucesso!!");
+          Console.Write("Filial cadastrada com sucesso!!\n\nPressione qualquer tecla para voltar ao Menu inicial;");
+          Console.ReadKey();
 
           break;
 
         case "2":
           limpaConsoleExibeLogo();
-          System.Console.Write("Filial: ")
-          string filial = Console.ReadLine();
           System.Console.Write("Nome: ");
           string nome_funcionario = Console.ReadLine();
           System.Console.Write("Cargo: ");
@@ -109,7 +149,7 @@ class GerenciarEmpresa
           System.Console.Write("Salário: ");
           float salario = float.Parse(Console.ReadLine());
 
-          Console.WriteLine("Data de entrada: ");
+          Console.WriteLine("\nDATA DE ENTRADA");
           Console.Write("Dia: ");
           int dia = int.Parse(Console.ReadLine());
           Console.Write("Mês: ");
@@ -117,11 +157,18 @@ class GerenciarEmpresa
           Console.Write("Ano: ");
           int ano = int.Parse(Console.ReadLine());
 
+          empresa_matriz.ExibirCodigoFiliais();
+          Console.WriteLine("Digite o código da empresa que deseja cadastrar este funcionário: ");
+          int codigo_filial = int.Parse(Console.ReadLine());
 
-          nova_empresa.CadastrarFuncionario(new Funcionario(filial, nome_funcionario, cargo, salario, new DateTime(ano, mes, dia)));
+          Funcionario novo_funcionario = new(nome_funcionario, cargo, salario, new DateTime(ano, mes, dia), codigo_filial);
+
+          empresa_matriz.CodigoFilial(codigo_filial, novo_funcionario);
+          empresa_matriz.CadastrarFuncionario(novo_funcionario);
 
 
           Console.WriteLine("\nFuncionário cadastrado com sucesso!\n\n");
+
           Console.WriteLine("Pressione qualquer tecla para retornar ao menu inicial");
           Console.ReadKey();
 
@@ -129,16 +176,17 @@ class GerenciarEmpresa
 
         case "3":
           limpaConsoleExibeLogo();
-          nova_empresa.ExibirFuncionarios();
-          Console.Write("Digite o número referente ao funcionário para visualizar seu plano de carreira: ");
+          empresa_matriz.ExibirFuncionarios();
+          Console.WriteLine("Digite o número referente ao funcionário para visualizar seu plano de carreira.");
           int resposta = int.Parse(Console.ReadLine()!);
+          limpaConsoleExibeLogo();
 
-          Funcionario funcionario_plano_carreira = nova_empresa.GetFuncionario(resposta - 1);
+          Funcionario funcionario_plano_carreira = empresa_matriz.GetFuncionario(resposta - 1);
 
           PlanoCarreira novo_plano = new(funcionario_plano_carreira);
-
-          Console.WriteLine($"Nome: {funcionario_plano_carreira.nome}\nCargo: {funcionario_plano_carreira.cargo}\nSalario: {funcionario_plano_carreira.salario}\nTempo de empresa em DIAS: {funcionario_plano_carreira.CalcularDiasNaEmpresa()}\nTempo de empresa em MESES: {novo_plano.tempo_de_empresa}\n");
-
+          novo_plano.ExibirFuncionarios(empresa_matriz.getListaFuncionarios());
+          limpaConsoleExibeLogo();
+          novo_plano.InfoDoFuncionario(funcionario_plano_carreira, novo_plano);
           novo_plano.SubirCargo();
 
           Console.ReadKey();
@@ -151,29 +199,27 @@ class GerenciarEmpresa
           {
             limpaConsoleExibeLogo();
             System.Console.WriteLine("[1] - Relatório de funcionários");
-            System.Console.WriteLine("[2] - Relatório de pagamentos");
+            System.Console.WriteLine("[2] - Relatório de filiais");
             System.Console.WriteLine("[3] - Voltar ao menu principal");
-            System.Console.Write("Digite sua opção: ");
+            System.Console.Write("Digite sua opção: \n\n");
             int choose = int.Parse(Console.ReadLine());
 
             switch (choose)
             {
               case 1:
                 limpaConsoleExibeLogo();
-                nova_empresa.ExibirDadosCompletosFuncionarios();
+                empresa_matriz.ExibirFuncionariosPorFilial(empresa_matriz);
 
+                Console.WriteLine("\n\nPressione qualquer tecla para retornar ao menu inicial");
                 Console.ReadKey();
                 break;
 
               case 2:
-                System.Console.WriteLine("Relatório de filiais/funcionários aqui");
-                break;
+                limpaConsoleExibeLogo();
+                empresa_matriz.ExibirDadosFiliais();
 
-              case 3:
-                System.Console.WriteLine("Relatório de pagamentos aqui");
-                break;
-
-              case 4:
+                Console.WriteLine("\n\nPressione qualquer tecla para retornar ao menu inicial");
+                Console.ReadKey();
                 break;
 
               default:
@@ -184,7 +230,8 @@ class GerenciarEmpresa
           break;
 
         case "5":
-          GravarDadosFuncionarios("banco_de_dados/FuncionariosCadastrados");
+          GravarDadosFuncionarios("banco_de_dados/FuncionariosCadastrados.txt");
+          GravarDadosFiliais("banco_de_dados/FiliaisCadastradas.txt");
           Console.WriteLine("\nDados gravados com sucesso! Pressione qualquer teclar continuar.");
           Console.ReadKey();
 
@@ -218,7 +265,9 @@ class GerenciarEmpresa
     GerenciarEmpresa meu_gerenciador = new GerenciarEmpresa();
 
     ///Metodo pra carregar dados existentes no banco de dados:
+    meu_gerenciador.CarregarDadosFiliais("banco_de_dados/FiliaisCadastradas.txt");
     meu_gerenciador.CarregarDadosFuncionarios("banco_de_dados/FuncionariosCadastrados.txt");
+
     meu_gerenciador.Menu();
   }
 }
