@@ -12,13 +12,11 @@ class Empresa
   public List<Funcionario> lista_funcionarios;
   public List<Filial> lista_filiais;
 
-
-
-
   // Construtures da classe empresa, para depois gerenciarmos a empresa especifica:
   public Empresa()
   {
     nome = "Vazio";
+
     data_criacao = new DateTime();
     identificacao = 0;
     lista_funcionarios = new List<Funcionario>();
@@ -33,8 +31,6 @@ class Empresa
     this.identificacao = identificacao;
     this.cpnj_matriz = cnpj_matriz;
   }
-
-
 
 
   // Metodo acessar a lista de funcionarios cadastrados:
@@ -176,5 +172,10 @@ class Empresa
       filial.ExibirDadosCompletosFuncionarios();
       Console.WriteLine();
     }
+  }
+
+  public static void ValidaEmpresa()
+  {
+
   }
 }

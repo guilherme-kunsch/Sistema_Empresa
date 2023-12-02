@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 
 ///Classe Base
@@ -31,10 +32,10 @@ public class Funcionario
     this.data_entrada = data_entrada;
     this.codigo_filial = codigo_filial;
 
-
   }
 
 
+  /////
   // Metodo pra verificar quanto tempo está na empresa:
   public int CalcularDiasNaEmpresa()
   {
@@ -43,4 +44,21 @@ public class Funcionario
     return diferenca.Days;
   }
 
+  public void ExibirTempoNaEmpresaEmAnos()
+  {
+    DateTime dataAtual = DateTime.Now;
+    TimeSpan diferenca = dataAtual - data_entrada;
+    int anos = (int)(diferenca.Days / 365.25);
+    Console.WriteLine($"\n{nome} está na empresa há aproximadamente {anos} anos.");
+  }
+
+  public void ExibirDadosAposCadastro()
+  {
+    Console.WriteLine($"\nNome: {nome}");
+    Console.WriteLine($"Cargo: {cargo}");
+    Console.WriteLine($"Salário: {salario}");
+    Console.WriteLine($"Data de Entrada: {data_entrada.ToShortDateString()}");
+    Console.WriteLine($"Código da Filial: {codigo_filial}");
+
+  }
 }

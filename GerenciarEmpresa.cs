@@ -16,6 +16,7 @@ class GerenciarEmpresa
     foreach (string linha in linhas)
     {
       string[] dados = linha.Split(";");
+
       string nome = dados[0];
       string cargo = dados[1];
       int salario = int.Parse(dados[2]);
@@ -62,7 +63,7 @@ class GerenciarEmpresa
     {
       foreach (Funcionario f in empresa_matriz.getListaFuncionarios())
       {
-        string linha = string.Format("{0};{1};{2};{3}", f.nome, f.cargo, f.salario, f.data_entrada);
+        string linha = string.Format("{0};{1};{2};{3};{4}", f.nome, f.cargo, f.salario, f.data_entrada, f.codigo_filial);
         writer.WriteLine(linha);
       }
 
@@ -77,7 +78,7 @@ class GerenciarEmpresa
     {
       foreach (Filial f in empresa_matriz.getListaFiliais())
       {
-        string linha = string.Format("{0};{1};{2};{3}", f.nome, f.data_criacao, f.identificacao, f.cnpj, f.quantidade_funcionarios, f.filial_estado);
+        string linha = string.Format("{0};{1};{2};{3};{4};{5}", f.nome, f.data_criacao, f.identificacao, f.cnpj, f.quantidade_funcionarios, f.filial_estado);
         writer.WriteLine(linha);
       }
 
@@ -120,11 +121,11 @@ class GerenciarEmpresa
           limpaConsoleExibeLogo();
           Console.Write("Digite o nome da filial: ");
           string nome = Console.ReadLine();
-          Console.Write("Digite a data de criação da filial: ");
+          Console.Write("Digite a data de criação da filial (ano/mes/dia): ");
           DateTime data_criacao = DateTime.Parse(Console.ReadLine());
-          Console.WriteLine("Digite o código da filial: ");
+          Console.Write("Digite o código da filial: ");
           int identificacao = int.Parse(Console.ReadLine());
-          Console.Write("Digite o CNPJ: ");
+          Console.Write("Digite o CNPJ 65.777753/0001:--: ");
           string cnpj = Console.ReadLine();
           Console.Write("Digite a quantidade de funcionários: ");
           int quantidade_funcionarios = Convert.ToInt32(Console.ReadLine());
@@ -157,17 +158,22 @@ class GerenciarEmpresa
           Console.Write("Ano: ");
           int ano = int.Parse(Console.ReadLine());
 
+          limpaConsoleExibeLogo();
           empresa_matriz.ExibirCodigoFiliais();
-          Console.WriteLine("Digite o código da empresa que deseja cadastrar este funcionário: ");
+          Console.WriteLine("Digite o código da empresa que deseja cadastrar este funcionário:");
           int codigo_filial = int.Parse(Console.ReadLine());
 
           Funcionario novo_funcionario = new(nome_funcionario, cargo, salario, new DateTime(ano, mes, dia), codigo_filial);
 
-          empresa_matriz.CodigoFilial(codigo_filial, novo_funcionario);
+          empresa_matriz.CodigoFilial(codigo_filial, novo_funcionario); //pra add o funcionario a sua respectiva filial
+
           empresa_matriz.CadastrarFuncionario(novo_funcionario);
-
-
+          limpaConsoleExibeLogo();
           Console.WriteLine("\nFuncionário cadastrado com sucesso!\n\n");
+
+          novo_funcionario.ExibirTempoNaEmpresaEmAnos();
+          novo_funcionario.ExibirDadosAposCadastro();
+
 
           Console.WriteLine("Pressione qualquer tecla para retornar ao menu inicial");
           Console.ReadKey();
